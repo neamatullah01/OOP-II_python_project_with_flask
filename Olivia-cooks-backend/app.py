@@ -15,6 +15,7 @@ client = MongoClient(MONGO_URI)
 db = client["restaurantDB"]
 top_food_collection = db["topFood"]
 all_food_collection = db["allFood"]
+all_cart_collection = db["cartFood"]
 
 @app.route('/topFoods', methods=['GET'])
 def get_top_foods():
@@ -60,6 +61,21 @@ def get_single_top_food(id):
 def get_foods_count():
     count = all_food_collection.estimated_document_count()
     return jsonify({"count": count})
+
+@app.route('/carts', methods=['POST'])
+def add_to_cart():
+    new_product = request.json
+    new_product.pop('_id', None)
+    result = all_cart_collection.insert_one(new_product)
+    return jsonify({'acknowledged': result.acknowledged, 'inserted_id': str(result.inserted_id)})
+
+@app.route('/carts', methods=['GET'])
+def get_carts():
+    carts = list(all_cart_collection.find())
+    for cart in carts:
+        cart["_id"] = str(cart["_id"])
+    return jsonify(carts)
+
 
 @app.route('/', methods=['GET'])
 def home():
