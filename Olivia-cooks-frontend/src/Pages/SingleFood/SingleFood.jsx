@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { FaCartArrowDown } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 const SingleFood = () => {
   const foodDetail = useLoaderData();
@@ -12,6 +13,22 @@ const SingleFood = () => {
     food_origin,
     description,
   } = foodDetail;
+
+  const handleCartAdd = () => {
+    fetch("http://127.0.0.1:5000/carts", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(foodDetail),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        toast.success("Successfully added to cart!");
+      });
+  };
+
   return (
     <div className="py-6 flex justify-center">
       <div className="card w-3/5 bg-[#93B1A6] shadow-2xl border border-black">
@@ -53,7 +70,10 @@ const SingleFood = () => {
             </p>
           </div>
           <div className="card-actions justify-end pt-3">
-            <Link className="btn btn-outline bg-white text-[#892CDC]">
+            <Link
+              onClick={handleCartAdd}
+              className="btn btn-outline bg-white text-[#892CDC]"
+            >
               Add to Cart
               <div className="text-3xl font-semibold">
                 <FaCartArrowDown />

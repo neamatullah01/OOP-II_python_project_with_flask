@@ -60,6 +60,7 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart></Cart>,
+        loader: () => fetch("http://127.0.0.1:5000/carts"),
       },
     ],
   },
