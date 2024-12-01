@@ -18,17 +18,18 @@ all_food_collection = db["allFood"]
 
 @app.route('/topFoods', methods=['GET'])
 def get_top_foods():
-    result = list(top_food_collection.find({}, {"_id": 0})) 
-    return jsonify(result)
-
-@app.route('/allFoods', methods=['GET'])
-def get_all_foods():
-    page = request.args.get('page', default=0, type=int)
-    size = request.args.get('size', default=10, type=int)
-    foods = list(all_food_collection.find().skip(page * size).limit(size))
+    foods = list(top_food_collection.find())
     for food in foods:
         food["_id"] = str(food["_id"])
     return jsonify(foods)
+
+@app.route('/allFoods', methods=['GET'])
+def get_all_foods():
+    foods = list(all_food_collection.find())
+    for food in foods:
+        food["_id"] = str(food["_id"])
+    return jsonify(foods)
+
 
 @app.route('/food', methods=['GET'])
 def get_food_by_name():
