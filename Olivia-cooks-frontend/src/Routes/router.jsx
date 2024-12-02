@@ -10,6 +10,7 @@ import Menu from "../Pages/Home/Menu/Menu";
 import SingleFood from "../Pages/SingleFood/SingleFood";
 import OrderFood from "../Pages/OrderFood/OrderFood";
 import Cart from "../Pages/Cart/Cart";
+import PrivateRoutes from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -43,13 +44,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/singleFood/:id",
-        element: <SingleFood></SingleFood>,
+        element: (
+          <PrivateRoutes>
+            <SingleFood></SingleFood>
+          </PrivateRoutes>
+        ),
         loader: ({ params }) =>
           fetch(`http://127.0.0.1:5000/singleFood/${params.id}`),
       },
       {
         path: "/singleTopFood/:id",
-        element: <SingleFood></SingleFood>,
+        element: (
+          <PrivateRoutes>
+            <SingleFood></SingleFood>
+          </PrivateRoutes>
+        ),
         loader: ({ params }) =>
           fetch(`http://127.0.0.1:5000/singleTopFood/${params.id}`),
       },
@@ -59,7 +68,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart></Cart>,
+        element: (
+          <PrivateRoutes>
+            <Cart></Cart>
+          </PrivateRoutes>
+        ),
         loader: () => fetch("http://127.0.0.1:5000/carts"),
       },
     ],

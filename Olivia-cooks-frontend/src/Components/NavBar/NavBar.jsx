@@ -23,6 +23,11 @@ const NavBar = () => {
           All Food Items
         </Link>
       </li>
+      <li>
+        <Link className="btn btn-outline" to="/menu">
+          Menu
+        </Link>
+      </li>
     </>
   );
   return (
@@ -53,7 +58,7 @@ const NavBar = () => {
           </ul>
         </div>
         <div className="px-6 hidden lg:flex">
-          <ul className="flex gap-6 px-1">{navLink}</ul>
+          <ul className="flex gap-2 px-1">{navLink}</ul>
         </div>
       </div>
       <div className="navbar-center h-10 md:h-28">
@@ -65,7 +70,8 @@ const NavBar = () => {
       </div>
 
       <div className="navbar-end md:pr-6">
-        <div className="mr-2">
+        <div className="mr-2 flex gap-2">
+          <Link className="btn btn-outline">contact us</Link>
           <Link
             to="/cart"
             className="btn border border-black bg-white text-[#892CDC]"
