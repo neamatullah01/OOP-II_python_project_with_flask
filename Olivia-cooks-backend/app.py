@@ -76,6 +76,18 @@ def get_carts():
         cart["_id"] = str(cart["_id"])
     return jsonify(carts)
 
+@app.route('/carts/<id>', methods=['DELETE'])
+def delete_cart(id):
+    try:
+        query = {'_id': ObjectId(id)}
+        result = all_cart_collection.delete_one(query)
+        if result.deleted_count > 0:
+            return jsonify({'message': 'Cart item deleted successfully'}), 200
+        else:
+            return jsonify({'message': 'No cart item found with this ID'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
 
 @app.route('/', methods=['GET'])
 def home():
