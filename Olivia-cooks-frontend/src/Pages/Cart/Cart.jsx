@@ -1,9 +1,52 @@
 import { useLoaderData } from "react-router-dom";
 import { MdPayment } from "react-icons/md";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
 const Cart = () => {
-  const allItem = useLoaderData();
-  console.log(allItem);
+  const initialItems = useLoaderData();
+  const [allItem, setAllItem] = useState(initialItems);
+
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/carts/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.message === "Cart item deleted successfully") {
+              setAllItem(allItem.filter((item) => item._id !== _id));
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your item has been deleted.",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+              });
+            } else {
+              Swal.fire("Error!", "Failed to delete the product.", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting item:", error);
+            Swal.fire(
+              "Error!",
+              "An error occurred while deleting the product.",
+              "error"
+            );
+          });
+      }
+    });
+  };
+
   return (
     <div className="max-w-screen-lg mx-auto">
       <div className="py-3 grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -21,7 +64,10 @@ const Cart = () => {
             </figure>
             <div className="p-4 space-y-2">
               <div className="absolute top-2 right-2">
-                <button className="btn btn-circle btn-outline">
+                <button
+                  onClick={() => handleDelete(item._id)}
+                  className="btn btn-circle btn-outline btn-sm"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
