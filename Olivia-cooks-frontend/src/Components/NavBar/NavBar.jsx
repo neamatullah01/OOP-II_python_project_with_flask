@@ -71,7 +71,6 @@ const NavBar = () => {
 
       <div className="navbar-end md:pr-6">
         <div className="mr-2 flex gap-2">
-          <Link className="btn btn-outline">contact us</Link>
           <Link
             to="/cart"
             className="btn border border-black bg-white text-[#892CDC]"
@@ -81,14 +80,22 @@ const NavBar = () => {
         </div>
         {user ? (
           <>
-            <img
-              className="w-12 mask mask-squircle mr-4"
-              src={user?.photoURL}
-              alt=""
-            />
             <button onClick={handleLogOut} className="btn border border-black">
               Logout <BiLogOut className="text-xl"></BiLogOut>
             </button>
+            <img
+              className="w-12 mask mask-squircle ml-4"
+              src={
+                user?.photoURL || (
+                  <div className="avatar">
+                    <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring ring-offset-2">
+                      <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                    </div>
+                  </div>
+                )
+              }
+              alt="User Avatar"
+            />
           </>
         ) : (
           <Link to="/login" className="btn border border-black">

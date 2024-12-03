@@ -94,7 +94,7 @@ const Cart = () => {
         ))}
       </div>
       <button className="btn btn-block border border-black bg-white text-[#892CDC] text-2xl my-5">
-        Make Payment <MdPayment />
+        Confirm Order <MdPayment />
       </button>
     </div>
   );
