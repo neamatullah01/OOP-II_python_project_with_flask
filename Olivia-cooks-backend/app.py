@@ -57,11 +57,6 @@ def get_single_top_food(id):
         result["_id"] = str(result["_id"])
     return jsonify(result)
 
-@app.route('/foodsCount', methods=['GET'])
-def get_foods_count():
-    count = all_food_collection.estimated_document_count()
-    return jsonify({"count": count})
-
 @app.route('/carts', methods=['POST'])
 def add_to_cart():
     new_product = request.json
